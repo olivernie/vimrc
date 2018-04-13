@@ -75,14 +75,23 @@ endfunction
 command! -nargs=? G let @a='g/<args>/' | execute 'g/<args>/y A' | new | setlocal bt=nofile | put! a
 
 " command Cgrep to search current dir to look for regexp in C/C++ files.
-command! -nargs=+ Cgrep call s:cgrep(<q-args>)
-function! s:cgrep(cmdline)
-    " let expanded_cmdline = 'find -regex .+\.[cChH][chHpP]*|xargs grep -n '
-    botright new
-    echom '$read !find -regex .+\.[cChH][chHpP]*|xargs grep -n ' . a:cmdline
+command! -nargs=? Cgrep call s:cgrep(<q-args>)
+function! s:cgrep(...)
+    if empty(a:1)
+        " get text from search register
+        " remove leading '\<' and ending '\>'
+        let a:cmdline = substitute(getreg('/'), '\\<\(.*\)\\>', '\1', 'g')
+    else
+        let a:cmdline = a:1
+    endif
+    " echom a:cmdline
+    " echom '$read !find -regex .+\.[cChH][chHpP]*|xargs grep -n ' . a:cmdline
+    new
     silent execute 'read !find -regex .+\\.[cChH][chHpP]*|xargs grep -n ' . a:cmdline
+    1d
 endfunction
 
+command! -nargs=? Test echom <q-args>
 
 autocmd BufRead svn-commit.tmp,svn-commit.[0-9].tmp set nobackup
 autocmd BufRead */merge.extra/*,*/merge.script/* set nobackup|set noswapfile
