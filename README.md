@@ -1,6 +1,6 @@
 # vimrc
 Backup personal .vimrc and plugins/
-# Ken maps
+# Key maps
 ## \<Ctrl\>j or <Ctrl>k
 Move to up/down window, then maximum the window size.
 ## \<Ctrl\>h or <Ctrl>l
