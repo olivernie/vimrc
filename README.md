@@ -10,6 +10,8 @@ Shrink or enlarge the font
 # C/C++ related commands
 ## Cgrep [text]
 Search current folder for C/C++ source/header files. Then execute grep *text* from the found files. If *text* is omitted, use vim register '/' as text.
+## Grep [text]
+Search current folder for text files. Then execute grep *text* from the found files. If *text* is omitted, use vim register '/' as text.
 ## G [text]
 Search current window and put the matching lines into a new window.
 ## Tlist
