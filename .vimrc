@@ -91,6 +91,23 @@ function! s:cgrep(...)
     1d
 endfunction
 
+" command Grep to search current dir to look for regexp in text files.
+command! -nargs=? Grep call s:lgrep(<q-args>)
+function! s:lgrep(...)
+    if empty(a:1)
+        " get text from search register
+        " remove leading '\<' and ending '\>'
+        let a:cmdline = substitute(getreg('/'), '\\<\(.*\)\\>', '\1', 'g')
+    else
+        let a:cmdline = a:1 
+    endif
+    " echom a:cmdline
+    echom '$read !find \( -type f ! -path "*/.svn/*" \)|xargs grep -nI ' . a:cmdline
+    new 
+    silent execute 'read !find \( -type f \! -path "*/.svn/*" \)|xargs grep -nI ' . a:cmdline
+    1d  
+endfunction
+
 command! -nargs=? Test echom <q-args>
 
 autocmd BufRead svn-commit.tmp,svn-commit.[0-9].tmp set nobackup
