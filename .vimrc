@@ -1,14 +1,20 @@
 " Switch between window splits using big J or K and expand the split to its 
 " full size. 
 " 
-" Move vertically in the window through the horizontal splits... 
-map <C-J> <C-w>j<C-w>_ 
-map <C-K> <C-w>k<C-w>_ 
+" Move vertically to the window through the horizontal splits... 
+map <C-j> <C-w>j<C-w>_ 
+map <C-k> <C-w>k<C-w>_ 
 
-" Move horizontally in the window through the vertical splits... 
-map <C-H> <C-w>h<C-w>\| 
-map <C-L> <C-w>l<C-w>\| 
+" Move horizontally to the window through the vertical splits... 
+map <C-h> <C-w>h<C-w>\| 
+map <C-l> <C-w>l<C-w>\| 
+
+" Make all windows equal size
 map <C-=> <c-w>=
+
+" Mover current window up/down
+noremap <C-Up>   <C-w>k<C-w>x<C-W>_
+noremap <C-Down> <C-w>x<C-w>j<C-w>_
 
 set hlsearch
 set nu
@@ -44,7 +50,6 @@ if has("gui_running")
         set guifont=Monospace\ 8
     endif
 endif
-
 
 command! -complete=shellcmd -nargs=+ Shell call s:RunShellCommand(<q-args>)
 function! s:RunShellCommand(cmdline)
@@ -99,13 +104,27 @@ function! s:lgrep(...)
         " remove leading '\<' and ending '\>'
         let a:cmdline = substitute(getreg('/'), '\\<\(.*\)\\>', '\1', 'g')
     else
-        let a:cmdline = a:1 
+        let a:cmdline = a:1
     endif
     " echom a:cmdline
     echom '$read !find \( -type f ! -path "*/.svn/*" \)|xargs grep -nI ' . a:cmdline
-    new 
+    new
     silent execute 'read !find \( -type f \! -path "*/.svn/*" \)|xargs grep -nI ' . a:cmdline
-    1d  
+    1d
+endfunction
+
+" command to search current dir for files
+command! -nargs=? Find call s:lfind(<q-args>)
+function! s:lfind(...)
+    if empty(a:1)
+        let a:cmdline = substitute(getreg('/'), '\\<\(.*\)\\>', '\1', 'g')
+    else
+        let a:cmdline = a:1
+    endif
+    echom 'read !find \( -type f \! -path "*/.svn/*" \) |grep ' . a:cmdline
+    new
+    silent execute 'read !find \( -type f \! -path "*/.svn/*" \) |grep ' . a:cmdline
+    1d
 endfunction
 
 command! -nargs=? Test echom <q-args>
@@ -118,10 +137,19 @@ nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
 set showmode
 
+"show buffers list and switch to the buffer by given number.
+nnoremap <F5> :buffers<CR>:buffer<Space>
+
 "map S to replace the current word with yanked one
 "nnoremap S diw"0P
 
 
 set diffopt+=iwhite
 set diffexpr=""
+
+
+augroup DontExpandTabs
+    autocmd!
+    autocmd FileType make setlocal noet
+augroup END
 
