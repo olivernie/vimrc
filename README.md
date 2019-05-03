@@ -9,6 +9,8 @@ Move to left/right window, then maximum the window size.
 Shrink or enlarge the font
 ## <kbd>Ctrl</kbd><kbd>Up</kbd> or <kbd>Ctrl</kbd><kbd>Dn</kbd>
 Move current window up or down.
+## <kbd>F5</kbd>
+Display buffer list.
 # Commands
 ## Find [text]
 Search current dir for files
