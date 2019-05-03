@@ -1,16 +1,16 @@
 # vimrc
 Backup personal .vimrc and plugins/
 # Key maps
-## \<Ctrl\>j or <Ctrl>k
+## <kbd>Ctrl</kbd><kbd>j</kbd> or <kbd>Ctrl</kbd><kbd>k</kbd>
 Move to up/down window, then maximum the window size.
-## \<Ctrl\>h or <Ctrl>l
+## <kbd>Ctrl</kbd><kbd>h</kbd> or <kbd>Ctrl</kbd><kbd>l</kbd>
 Move to left/right window, then maximum the window size.
-## \<Ctrl\>- or <Ctrl>+
+## <kbd>Ctrl</kbd><kbd>-</kbd> or <kbd>Ctrl</kbd><kbd>+</kbd>
 Shrink or enlarge the font
-## \<Ctrl\><Up> or <Ctrl><Dn>
+## <kbd>Ctrl</kbd><kbd>Up</kbd> or <kbd>Ctrl</kbd><kbd>Dn</kbd>
 Move current window up or down.
 # Commands
-## Find [pattern]
+## Find [text]
 Search current dir for files
 ## G [text]
 Search current window and put the matching lines into a new window.
