@@ -96,6 +96,23 @@ function! s:cgrep(...)
     1d
 endfunction
 
+" command P4grep to search current dir to look for regexp in P4 files.
+command! -nargs=? P4grep call s:p4grep(<q-args>)
+function! s:p4grep(...)
+    if empty(a:1)
+        " get text from search register
+        " remove leading '\<' and ending '\>'
+        let a:arg = substitute(getreg('/'), '\\<\(.*\)\\>', '\1', 'g')
+    else
+        let a:arg = a:1
+    endif
+    " echom a:arg
+    " echom '$read !find -regex .+\.[cChH][chHpP]*|xargs grep -n ' . a:arg
+    new
+    silent execute 'read !find -regex .+\\.[pP]4|xargs grep -n ' . a:arg
+    1d
+endfunction
+
 " command Grep to search current dir to look for regexp in text files.
 command! -nargs=? Grep call s:lgrep(<q-args>)
 function! s:lgrep(...)
@@ -152,4 +169,6 @@ augroup DontExpandTabs
     autocmd!
     autocmd FileType make setlocal noet
 augroup END
+
+autocmd BufRead,BufNewFile *.[pP]4 set filetype=p4
 
