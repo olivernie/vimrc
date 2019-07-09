@@ -21,7 +21,7 @@ syn keyword p4ObjectKeyword parser_value_set
 syn keyword p4ObjectKeyword counter meter register
 
 syn keyword p4SpecialKeyword start accept reject packet_in packet_out in out inout default
-syn keyword p4SpecialKeyword next last latest
+syn keyword p4SpecialKeyword next last lastIndex latest mask
 
 " Tables
 syn keyword p4ObjectAttributeKeyword reads key actions default_action min_size max_size size 
@@ -47,24 +47,35 @@ syn region  p4BlockComment  start="/\*"  end="\*/" contains=p4TODO
 
 " Integers
 syn match   p4DecimalInt "\<\d\+\([Ee]\d\+\)\?\>"
-syn match   p4HexadecimalInt "\<0x\x\+\>"
+"" Hex Format 0x800
+syn match   p4HexadecimalInt "\<0x[0-9_a-fA-F]\+\>"
+"" Hex Format 32w0x55AA00FF, or 32wDEADBEEF
+syn match   p4HexadecimalInt /\<[0-9]\+w\(0x\)\{0,1}[0-9_a-fA-F]\+\>/
+
+" Operators
+syn match   p4Operators     /&&&\|+++/
 
 " Preproc
 syn region  p4File start=/</ end=/>/ contained
 syn region  p4File start=/"/ end=/"/ contained
 syn region  p4Preprocessor start=/#\<.\+\>/ skip=/ \\$/ end=/[^\\]*$/ contains=p4File
 
-" header type or struct type
+" User Defined Header Type or Struct Type
 syn match   p4TypeDefined /\<[0-9a-z_A-Z]\+_t\>/
 
 " @xxxx
 syn match   p4Namespace /@[0-9a-zA-Z_]\+/
 syn region  p4String start=/"/ skip=/\\"/ end=/"/
 
+" Builtin Functions
 syn keyword p4Builtin hit miss
 syn keyword p4Builtin update apply lookahead advance length emit NoAction
 syn keyword p4Builtin verify extract transition set_metadata
 syn keyword p4Builtin clone clone3 truncate assert assume
+"" Header Validity
+syn keyword p4Builtin setValid setInvalid isValid action_run
+"" Header Stack operations in controls
+syn keyword p4Builtin pop_front push_front
 
 syn keyword p4Primitives add_header copy_header remove_header
 syn keyword p4Primitives modify_field add_to_field
@@ -110,5 +121,6 @@ hi def link p4Namespace                 Macro
 hi def link p4PredefinedEnumKeyword     LineNr
 hi def link p4PredefinedErrorKeyword    WarningMsg
 hi def link p4TypeDefined               MoreMsg
+hi def link p4Operators                 ModeMsg
 
 let b:current_syntax = "p4"
