@@ -27,4 +27,4 @@ Toggle the Tlist tags window.
 
 # Syntax
 ## P4 file
-Install p4.vim to <HOME>/.vim/syntax.
+Install syntax/p4.vim to \<HOME\>/.vim/syntax.
